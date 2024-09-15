@@ -22,9 +22,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aztec/bb.js@npm:0.47.1":
-  version: 0.47.1
-  resolution: "@aztec/bb.js@npm:0.47.1"
+"@aztec/bb.js@npm:0.55.0":
+  version: 0.55.0
+  resolution: "@aztec/bb.js@npm:0.55.0"
   dependencies:
     comlink: ^4.4.1
     commander: ^10.0.1
@@ -32,7 +32,7 @@ __metadata:
     tslib: ^2.4.0
   bin:
     bb.js: dest/node/main.js
-  checksum: fa06d2ab58b2a23bacc578df7654f5c7eb90553229fc9730aaaf7479bc96b39f10f24a4f3a7eae8f73df3cdd8a3ffb07627cad61dff9896cabdb275ce5b6f09b
+  checksum: 18ae18a962e05fd28e15e17796ec08e889ea331ec1790f8c77aa1d9472b4942c8f03c2cb8d8366a2e7a6896ffc135cdfc5b3bb6c9743bdf85e183f771c4f7b88
   languageName: node
   linkType: hard
 
@@ -2301,48 +2301,48 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noir-lang/acvm_js@npm:0.49.0":
-  version: 0.49.0
-  resolution: "@noir-lang/acvm_js@npm:0.49.0"
-  checksum: 8c805eb35bd9c1380d862a73c283e7c4225cd07f31fc87225696dedafdfe19279704486d7b810666533ab57128dc92d105b23ad796a75f8a116616e23d194b10
+"@noir-lang/acvm_js@npm:0.50.0":
+  version: 0.50.0
+  resolution: "@noir-lang/acvm_js@npm:0.50.0"
+  checksum: c10dd1c26241a2a184b498565d6232317fca1cb6bc7bd1a0d20c0c742f30d7a6dcb68198c3938713a9d112f29a2f5285d917c46ec4d3e556d2ec46ec70504349
   languageName: node
   linkType: hard
 
-"@noir-lang/backend_barretenberg@npm:0.33.0":
-  version: 0.33.0
-  resolution: "@noir-lang/backend_barretenberg@npm:0.33.0"
+"@noir-lang/backend_barretenberg@npm:^0.34.0":
+  version: 0.34.0
+  resolution: "@noir-lang/backend_barretenberg@npm:0.34.0"
   dependencies:
-    "@aztec/bb.js": 0.47.1
-    "@noir-lang/types": 0.33.0
+    "@aztec/bb.js": 0.55.0
+    "@noir-lang/types": 0.34.0
     fflate: ^0.8.0
-  checksum: 3610e245bfd795814570abce654782b5610a1ed5951c343dd4c67d77221fc9345836e35f6aeba1b4a16bd84d59fa12bdd249d00b3ee879403134ce16a4170f2f
+  checksum: 40f785048884827e7461829fa0196ead7055271fdb904c853a3e7e035713ba09b037fd039722e53ab8f905682ead900a42f6f9d09490860944b1b0cdc9bf7dcc
   languageName: node
   linkType: hard
 
-"@noir-lang/noir_js@npm:0.33.0":
-  version: 0.33.0
-  resolution: "@noir-lang/noir_js@npm:0.33.0"
+"@noir-lang/noir_js@npm:^0.34.0":
+  version: 0.34.0
+  resolution: "@noir-lang/noir_js@npm:0.34.0"
   dependencies:
-    "@noir-lang/acvm_js": 0.49.0
-    "@noir-lang/noirc_abi": 0.33.0
-    "@noir-lang/types": 0.33.0
-  checksum: 82d759db2487b4c2fd298ec989cb0f4547f5dfef4cc70bf37531e1d92e04bfecf425576497b8f63769a3249a584a1a31c2751615a2633a51b2dd815e296044b1
+    "@noir-lang/acvm_js": 0.50.0
+    "@noir-lang/noirc_abi": 0.34.0
+    "@noir-lang/types": 0.34.0
+  checksum: 432f14d70d911c94aacab42012e7813b5823d9a8971d1d9a543b82ab3b2e38739bf1e065788c08e8f44bebd75fb3ab0f8dba3151b74bbb3aa2ec5c105f4bca61
   languageName: node
   linkType: hard
 
-"@noir-lang/noirc_abi@npm:0.33.0":
-  version: 0.33.0
-  resolution: "@noir-lang/noirc_abi@npm:0.33.0"
+"@noir-lang/noirc_abi@npm:0.34.0":
+  version: 0.34.0
+  resolution: "@noir-lang/noirc_abi@npm:0.34.0"
   dependencies:
-    "@noir-lang/types": 0.33.0
-  checksum: e08278f863ae17b023dba3fecec26822946ef5003fbdb4ff95de8dd3476986b861502a8727b579784832f4bf8a11daac74a6857a3df1596a8160f554a7521839
+    "@noir-lang/types": 0.34.0
+  checksum: f2d37983a59ccbaace1e07c59d49c650c9171f9c51860a44566f637d9f2f69dd4cf2195448807536a0d3d260d1565d24e0e799f88d26922f965767df635111bb
   languageName: node
   linkType: hard
 
-"@noir-lang/types@npm:0.33.0":
-  version: 0.33.0
-  resolution: "@noir-lang/types@npm:0.33.0"
-  checksum: 61624e98378f3b83d601df82c1f031b444beb570861cc6dd40fb90cb53344f90446d30647383520ecc9f1df9c0f042d94f4ab4e4798f7d500b2133c0fa026a69
+"@noir-lang/types@npm:0.34.0":
+  version: 0.34.0
+  resolution: "@noir-lang/types@npm:0.34.0"
+  checksum: d2bbe86faa22a0dc2aaa805412eb597ef7daeb21fc42a7b96c82a32475e2b3e3cbfd88011e85880932da49ed8c290eafa5c059a0d507518dd5a3a3e251a4b4e2
   languageName: node
   linkType: hard
 
@@ -3718,8 +3718,8 @@ __metadata:
     "@babel/core": ^7.22.5
     "@babel/preset-env": ^7.22.2
     "@babel/preset-typescript": ^7.21.5
-    "@noir-lang/backend_barretenberg": 0.33.0
-    "@noir-lang/noir_js": 0.33.0
+    "@noir-lang/backend_barretenberg": ^0.34.0
+    "@noir-lang/noir_js": ^0.34.0
     babel-jest: ^29.5.0
     babel-preset-jest: ^29.5.0
     jest: ^29.5.0

@@ -1,5 +1,5 @@
 use crate::{BODY_HASH_BASE64_LENGTH, MAX_EMAIL_HEADER_LENGTH};
-use dep::string_search::{StringBody, SubString, StringBody512, SubString32, SubString64};
+// use dep::string_search::{StringBody, SubString, StringBody512, SubString32, SubString64};
 
 
 /**
@@ -14,7 +14,7 @@ pub fn bodyhash_base64_decode(encoded: [u8; BODY_HASH_BASE64_LENGTH]) -> [u8; 32
     for i in 0..BODY_HASH_BASE64_LENGTH {
         let translate = base64_lookup(encoded[i] as u8);
         // Store as big endian
-        let translate_bits = (translate as Field).to_be_bits(6);
+        let translate_bits: [u1; 6] = (translate as Field).to_be_bits();
         for j in 0..6 {
             total_bits[i * 6 + j] = translate_bits[j];
         }

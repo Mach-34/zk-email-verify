@@ -36,6 +36,7 @@ type InputGenerationArgs = {
   removeSoftLineBreaks?: boolean;
   headerMask?: number[];
   bodyMask?: number[];
+  backend?: CircuitBackend;
 };
 
 function removeSoftLineBreaks(body: string[]): string[] {
@@ -179,8 +180,8 @@ export function toNoirInputs(inputs: CircuitInput, exactLength = true) {
     body: exactLength
     ? inputs.emailBody!.slice(0, Number(inputs.emailBodyLength))!
     : inputs.emailBody!,
-    body_length: inputs.emailBodyLengthUnpadded!,
-    header_length: inputs.emailHeaderLengthUnpadded!,
+    body_length: inputs.emailBodyLength!,
+    header_length: inputs.emailHeaderLength!,
     pubkey_modulus_limbs: inputs.pubkey!,
     redc_params_limbs: inputs.redc_params!,
     signature: { limbs: inputs.signature! },
