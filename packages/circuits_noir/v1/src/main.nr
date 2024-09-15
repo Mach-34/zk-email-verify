@@ -11,6 +11,8 @@ type BN2048 = BigNum<18, Params2048>;
 type RSA2048 = RSA<BN2048, BigNumInstance<18, Params2048>, 256>;
 
 global BODY_HASH_BASE64_LENGTH: u32 = 44;
+// global EMAIL_HEADER_LENGTH: u32 = 472;
+// global EMAIL_BODY_LENGTH: u32 = 24;
 global EMAIL_HEADER_LENGTH: u32 = 472;
 global EMAIL_BODY_LENGTH: u32 = 24;
 global MAX_ADDRESS_LOCAL_LENGTH = 64; // the max part before @ in the email address

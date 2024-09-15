@@ -13,7 +13,7 @@ describe("Input generators", () => {
   });
   it("Input generation test", async () => {
     const email = fs.readFileSync(
-      path.join(__dirname, "test-data/email-good.eml")
+      path.join(__dirname, "test-data/email-good-large.eml")
     );
 
     const inputs = await generateEmailVerifierInputs(email, {
@@ -29,7 +29,8 @@ describe("Input generators", () => {
     // expect(inputs.bodyHashIndex).toBeDefined();
 
     const formattedInputs = toNoirInputs(inputs);
-    console.log("formattedInputs", JSON.stringify(formattedInputs.signature));
+    console.log("formattedInputs", formattedInputs.header.length);
+    console.log("Body length: ", formattedInputs.body.length);
     // console.log(formattedInputs.body?.slice(0, Number(formattedInputs.body_length)));
     // console.log("header length: ", formattedInputs.header_length);
   });
