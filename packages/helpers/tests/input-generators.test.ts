@@ -13,6 +13,8 @@ describe("Input generators", () => {
 
     const inputs = await generateEmailVerifierInputs(email);
 
+    console.log("inputs", inputs);
+
     expect(inputs.emailHeader).toBeDefined();
     expect(inputs.pubkey).toBeDefined();
     expect(inputs.signature).toBeDefined();
