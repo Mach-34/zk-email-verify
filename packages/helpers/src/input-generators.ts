@@ -22,18 +22,20 @@ type CircuitInput = {
   precomputedSHA?: string[];
   bodyHashIndex?: string;
   decodedEmailBodyIn?: string[];
-  mask?: number[];
+  headerMask?: number[];
+  bodyMask?: number[];
 };
 
 type InputGenerationArgs = {
   ignoreBodyHashCheck?: boolean;
+  enableHeaderMasking?: boolean;
   enableBodyMasking?: boolean;
   shaPrecomputeSelector?: string;
   maxHeadersLength?: number; // Max length of the email header including padding
   maxBodyLength?: number; // Max length of the email body after shaPrecomputeSelector including padding
   removeSoftLineBreaks?: boolean;
-  mask?: number[];
-  backend?: CircuitBackend;
+  headerMask?: number[];
+  bodyMask?: number[];
 };
 
 function removeSoftLineBreaks(body: string[]): string[] {
@@ -115,6 +117,10 @@ export function generateEmailVerifierInputsFromDKIMResult(
     }),
   };
 
+  if (params.enableHeaderMasking) {
+    circuitInputs.headerMask = params.headerMask;
+  }
+  
   if (!params.ignoreBodyHashCheck) {
     if (!body || !bodyHash) {
       throw new Error(
@@ -156,7 +162,7 @@ export function generateEmailVerifierInputsFromDKIMResult(
     }
 
     if (params.enableBodyMasking) {
-      circuitInputs.mask = params.mask;
+      circuitInputs.bodyMask = params.bodyMask;
     }
   }
 
