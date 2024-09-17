@@ -1,6 +1,6 @@
 [package]
-name = "noir_zkemail"
-type = "bin"
+name = "zkemail.nr"
+type = "lib"
 authors = ["Mach 34"]
 compiler_version = ">=0.34.0"
 

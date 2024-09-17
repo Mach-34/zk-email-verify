@@ -3,7 +3,6 @@ use dep::noir_rsa::bignum::runtime_bignum::BigNumInstance;
 use dep::noir_rsa::bignum::fields::Params2048;
 use dep::noir_rsa::types::RSA;
 use dep::std::hash::{sha256_var, pedersen_hash};
-// use dep::string_search::{StringBody, SubString, StringBody512, SubString32, SubString64};
 
 mod utils;
 
@@ -14,9 +13,6 @@ global BODY_HASH_BASE64_LENGTH: u32 = 44;
 global MAX_EMAIL_HEADER_LENGTH: u32 = 1024;
 global MAX_EMAIL_BODY_LENGTH: u32 = 1536;
 global RSA_EXPONENT: u32 = 65537;
-// global MAX_ADDRESS_LOCAL_LENGTH = 64; // the max part before @ in the email address
-// global TO_DOMAIN_LENGTH: u32 = 10;
-// global TO_DOMAIN: [u8; TO_DOMAIN_LENGTH] = "@gmail.com".as_bytes(); // example of string search
 
 fn main(
     body_hash_index: u32,
@@ -27,8 +23,7 @@ fn main(
     pubkey_modulus_limbs: [Field; 18],
     redc_params_limbs: [Field; 18],
     signature: BN2048,
-    // padded_recipient_local: [u8; MAX_ADDRESS_LOCAL_LENGTH],
-    // recipient_local_length: u32
+
 ) -> pub Field {
     // check the body and header lengths are within bounds
     assert(header_length <= MAX_EMAIL_HEADER_LENGTH);

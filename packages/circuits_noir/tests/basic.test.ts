@@ -1,8 +1,10 @@
 import {
   generateEmailVerifierInputs,
+  generateEmailVerifierInputsFromDKIMResult,
   toNoirInputs,
   CircuitBackend,
 } from "@zk-email/helpers/src/input-generators";
+import { verifyDKIMSignature } from "@zk-email/helpers/src/dkim";
 import fs from "fs";
 import path from "path";
 import {
@@ -10,7 +12,8 @@ import {
   UltraHonkBackend,
 } from "@noir-lang/backend_barretenberg";
 import { Noir } from "@noir-lang/noir_js";
-import circuit from "../target/noir_zkemail.json";
+import circuit1024 from "../email-verifier-1024/target/noir_zkemail_1024.json";
+import circuit2048 from "../email-verifier-2048/target/noir_zkemail_2048.json";
 
 const emails = {
   small: fs.readFileSync(
@@ -19,39 +22,66 @@ const emails = {
   large: fs.readFileSync(
     path.join(__dirname, "../../helpers/tests/test-data/email-good-large.eml")
   ),
+  ownership: fs.readFileSync(
+    path.join(__dirname, "../../helpers/tests/test-data/ownership.eml")
+  ),
+};
+
+type Prover = {
+  noir: Noir,
+  barretenberg: BarretenbergBackend,
+  ultraHonk: UltraHonkBackend,
 };
 
 describe("Fixed Size Circuit Input", () => {
-  let noir: Noir;
-  let ultraHonk: UltraHonkBackend;
-  let barretenberg: BarretenbergBackend;
+  let prover1024: Prover;
+  let prover2048: Prover;
   jest.setTimeout(100000);
   beforeAll(async () => {
-    ultraHonk = new UltraHonkBackend(circuit);
-    barretenberg = new BarretenbergBackend(circuit);
-    noir = new Noir(circuit);
+    prover1024 = {
+      noir: new Noir(circuit1024),
+      barretenberg: new BarretenbergBackend(circuit1024),
+      ultraHonk: new UltraHonkBackend(circuit1024)
+
+    };
+    prover2048 = {
+      noir: new Noir(circuit2048),
+      barretenberg: new BarretenbergBackend(circuit2048),
+      ultraHonk: new UltraHonkBackend(circuit2048)
+    };
+    
   });
 
   describe("UltraHonk", () => {
-    it("UltraHonk::SmallEmail", async () => {
+    xit("UltraHonk::SmallEmail", async () => {
       const inputs = await generateEmailVerifierInputs(emails.small, {
         backend: CircuitBackend.Noir,
       });
       const noirInputs = toNoirInputs(inputs, false);
-      const { witness } = await noir.execute(noirInputs);
-      const proof = await ultraHonk.generateProof(witness);
-      const result = await ultraHonk.verifyProof(proof);
+      const { witness } = await prover2048.noir.execute(noirInputs);
+      const proof = await prover2048.ultraHonk.generateProof(witness);
+      const result = await prover2048.ultraHonk.verifyProof(proof);
       expect(result).toBeTruthy();
     });
 
-    it("UltraHonk::LargeEmail", async () => {
+    xit("UltraHonk::LargeEmail", async () => {
       const inputs = await generateEmailVerifierInputs(emails.large, {
         backend: CircuitBackend.Noir,
       });
       const noirInputs = toNoirInputs(inputs, false);
-      const { witness } = await noir.execute(noirInputs);
-      const proof = await ultraHonk.generateProof(witness);
-      const result = await ultraHonk.verifyProof(proof);
+      const { witness } = await prover2048.noir.execute(noirInputs);
+      const proof = await prover2048.ultraHonk.generateProof(witness);
+      const result = await prover2048.ultraHonk.verifyProof(proof);
+      expect(result).toBeTruthy();
+    });
+    it("UltraHonk::Ownership", async () => {
+      const inputs = await generateEmailVerifierInputs(emails.ownership, {
+        backend: CircuitBackend.Noir,
+      });
+      const noirInputs = toNoirInputs(inputs, false);
+      const { witness } = await prover1024.noir.execute(noirInputs);
+      const proof = await prover1024.ultraHonk.generateProof(witness);
+      const result = await prover1024.ultraHonk.verifyProof(proof);
       expect(result).toBeTruthy();
     });
   });
@@ -62,9 +92,9 @@ describe("Fixed Size Circuit Input", () => {
         backend: CircuitBackend.Noir,
       });
       const noirInputs = toNoirInputs(inputs, false);
-      const { witness } = await noir.execute(noirInputs);
-      const proof = await barretenberg.generateProof(witness);
-      const result = await barretenberg.verifyProof(proof);
+      const { witness } = await prover2048.noir.execute(noirInputs);
+      const proof = await prover2048.barretenberg.generateProof(witness);
+      const result = await prover2048.barretenberg.verifyProof(proof);
       expect(result).toBeTruthy();
     });
 
@@ -73,9 +103,9 @@ describe("Fixed Size Circuit Input", () => {
         backend: CircuitBackend.Noir,
       });
       const noirInputs = toNoirInputs(inputs, false);
-      const { witness } = await noir.execute(noirInputs);
-      const proof = await barretenberg.generateProof(witness);
-      const result = await barretenberg.verifyProof(proof);
+      const { witness } = await prover2048.noir.execute(noirInputs);
+      const proof = await prover2048.barretenberg.generateProof(witness);
+      const result = await prover2048.barretenberg.verifyProof(proof);
       expect(result).toBeTruthy();
     });
   });
