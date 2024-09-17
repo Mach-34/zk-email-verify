@@ -2,7 +2,7 @@ import { Uint8ArrayToCharArray, toCircomBigIntBytes } from "./binary-format";
 import { MAX_BODY_PADDED_BYTES, MAX_HEADER_PADDED_BYTES } from "./constants";
 import { DKIMVerificationResult, verifyDKIMSignature } from "./dkim";
 import { generatePartialSHA, sha256Pad } from "./sha-utils";
-import * as NoirRedc from "noir_redc";
+import * as NoirBignum from "noir-bignum";
 
 export enum CircuitBackend {
   Circom = "circom",
@@ -107,14 +107,14 @@ export function generateEmailVerifierInputsFromDKIMResult(
         : messagePaddedLen.toString(),
     pubkey:
       params.backend === CircuitBackend.Noir
-        ? NoirRedc.bn_limbs_from_string(publicKey.toString(16))
+        ? NoirBignum.bn_limbs_from_string(publicKey.toString(16))
         : toCircomBigIntBytes(publicKey),
     signature:
       params.backend === CircuitBackend.Noir
-        ? NoirRedc.bn_limbs_from_string(signature.toString(16))
+        ? NoirBignum.bn_limbs_from_string(signature.toString(16))
         : toCircomBigIntBytes(signature),
     ...(params.backend === CircuitBackend.Noir && {
-      redc_params: NoirRedc.redc_limbs_from_string(publicKey.toString(16)),
+      redc_params: NoirBignum.redc_limbs_from_string(publicKey.toString(16)),
     }),
   };
 

@@ -1,5 +1,5 @@
 [package]
-name = "noir_redc"
+name = "noir_bignum"
 version = "0.1.0"
 edition = "2021"
 license = "MIT or Apache-2.0"

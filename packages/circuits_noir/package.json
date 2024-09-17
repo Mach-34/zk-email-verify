@@ -6,7 +6,7 @@
     "@noir-lang/noir_js": "^0.34.0"
   },
   "scripts": {
-    "compile": "nargo compile --force",
+    "compile": "./scripts/compile.sh",
     "publish": "yarn npm publish --access=public",
     "test": "NODE_OPTIONS=--max_old_space_size=8192 jest tests"
   },

@@ -1,5 +1,5 @@
 [package]
-name = "noir_zkemail"
+name = "noir_zkemail_1024"
 type = "bin"
 authors = ["Mach 34"]
 compiler_version = ">=0.34.0"
