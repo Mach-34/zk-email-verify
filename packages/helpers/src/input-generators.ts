@@ -92,7 +92,6 @@ export function generateEmailVerifierInputsFromDKIMResult(
   params: InputGenerationArgs = {}
 ): CircuitInput {
   const { headers, body, bodyHash, publicKey, signature } = dkimResult;
-
   // SHA add padding
   const [messagePadded, messagePaddedLen] = sha256Pad(
     headers,

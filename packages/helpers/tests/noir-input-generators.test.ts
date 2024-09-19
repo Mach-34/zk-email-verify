@@ -11,11 +11,13 @@ describe("Input generators", () => {
     //   path.join(__dirname, "test-data/email-good-large.eml")
     // );
     const email = fs.readFileSync(
-      path.join(__dirname, "test-data/ownership.eml")
+      path.join(__dirname, "test-data/merge.eml")
     );
 
     const inputs = await generateEmailVerifierInputs(email, {
       backend: CircuitBackend.Noir,
+      maxHeadersLength: 1536,
+      maxBodyLength: 1536
     });
 
     // expect(inputs.emailHeader).toBeDefined();
@@ -26,9 +28,9 @@ describe("Input generators", () => {
     // expect(inputs.emailBodyLength).toBeDefined();
     // expect(inputs.bodyHashIndex).toBeDefined();
     const formattedInputs = toNoirInputs(inputs);
-    console.log("formattedInputs", formattedInputs.pubkey_modulus_limbs);
-    // console.log("formattedInputs", formattedInputs.header.length);
-    // console.log("Body length: ", formattedInputs.body.length);
+    
+    console.log("header length", formattedInputs.header.length);
+    console.log("Body length: ", formattedInputs.body.length);
     // console.log(formattedInputs.body?.slice(0, Number(formattedInputs.body_length)));
     // console.log("header length: ", formattedInputs.header_length);
   });

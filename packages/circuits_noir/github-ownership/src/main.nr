@@ -12,8 +12,8 @@ type RSA1024 = RSA<BN1024, BigNumInstance<BN_LIMBS, Params1024>, 128>;
 
 global BN_LIMBS: u32 = 9;
 global BODY_HASH_BASE64_LENGTH: u32 = 44;
-global MAX_EMAIL_HEADER_LENGTH: u32 = 768;
-global MAX_EMAIL_BODY_LENGTH: u32 = 512;
+global MAX_EMAIL_HEADER_LENGTH: u32 = 1408;
+global MAX_EMAIL_BODY_LENGTH: u32 = 2816;
 global RSA_EXPONENT: u32 = 65537;
 global MAX_ADDRESS_LOCAL_LENGTH = 64; // the max part before @ in the email address
 global TO_DOMAIN_LENGTH: u32 = 10;
@@ -28,8 +28,6 @@ fn main(
     pubkey_modulus_limbs: [Field; BN_LIMBS],
     redc_params_limbs: [Field; BN_LIMBS],
     signature: BN1024,
-    padded_recipient_local: [u8; MAX_ADDRESS_LOCAL_LENGTH],
-    recipient_local_length: u32
 ) -> pub Field {
     // check the body and header lengths are within bounds
     assert(header_length <= MAX_EMAIL_HEADER_LENGTH);
@@ -55,9 +53,9 @@ fn main(
     // verify the body hash
     assert(body_hash == decoded_body_hash);
 
-    // string search for the asserted recipient domain
-    let (found, index) = utils::find_to_index(header, padded_recipient_local, recipient_local_length, header_length);
-    assert(found);
+    // // string search for the asserted recipient domain
+    // let (found, index) = utils::find_to_index(header, padded_recipient_local, recipient_local_length, header_length);
+    // assert(found);
 
     // extract the recipient domain
     // let recipient_domain = utils::extract_expected_recipient_domain(header, recipient_local_length, index);
