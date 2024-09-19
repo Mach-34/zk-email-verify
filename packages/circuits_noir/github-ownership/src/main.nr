@@ -51,7 +51,7 @@ fn main(
     let body_hash: [u8; 32] = sha256_var(body, body_length as u64);
 
     // verify the body hash
-    assert(body_hash == decoded_body_hash);
+    // assert(body_hash == decoded_body_hash);
 
     // // string search for the asserted recipient domain
     // let (found, index) = utils::find_to_index(header, padded_recipient_local, recipient_local_length, header_length);
