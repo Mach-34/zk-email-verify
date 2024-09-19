@@ -49,7 +49,7 @@ describe("Fixed Size Circuit Input", () => {
       barretenberg: new BarretenbergBackend(circuit2048),
       ultraHonk: new UltraHonkBackend(circuit2048)
     };
-    
+
   });
 
   describe("UltraHonk", () => {
@@ -79,6 +79,7 @@ describe("Fixed Size Circuit Input", () => {
         backend: CircuitBackend.Noir,
       });
       const noirInputs = toNoirInputs(inputs, false);
+      console.log('Noir inputs: ', noirInputs);
       const { witness } = await prover1024.noir.execute(noirInputs);
       const proof = await prover1024.ultraHonk.generateProof(witness);
       const result = await prover1024.ultraHonk.verifyProof(proof);

@@ -1,11 +1,14 @@
-use crate::{BODY_HASH_BASE64_LENGTH, MAX_EMAIL_HEADER_LENGTH};
-// use dep::string_search::{StringBody, SubString, StringBody512, SubString32, SubString64};
+use crate::{
+    BODY_HASH_BASE64_LENGTH, GITHUB_ADDRESS_LEN, MAX_EMAIL_BODY_LENGTH, MAX_EMAIL_HEADER_LENGTH, 
+    MAX_ADDRESS_LENGTH, MAX_ADDRESS_LOCAL_LENGTH, MAX_USERNAME_LENGTH, TO_DOMAIN_LENGTH
+};
+use dep::string_search::{StringBody, SubString, StringBody1024, SubString32, SubString64};
 
 
 /**
  * Decodes a base64 encoded body hash into a 32 byte sha256 hash of the body
  * @notice from https://github.com/richardliang/noir-rsa/blob/main/crates/rsa-biguint/src/lib.nr
-
+ * 
  * @param encoded - the base 64 encoded body hash
  * @returns the decoded sha256 hash
  */
@@ -76,31 +79,7 @@ pub fn get_body_hash(header: [u8; MAX_EMAIL_HEADER_LENGTH], index: u32) -> [u8; 
     body_hash
 }
 
-// /**
-//  * Attempt to find the index of the "to" field in the email header to eventually extract recipient domain
-//  *
-//  * @param header - the entire email header to search through
-//  * @param padded_recipient_local - the username (local part) of the recipient email address
-//  * @param recipient_local_length - the length of the username (local part) of the recipient email address
-//  * @returns (true/ false if found, index of start in the header)
-//  */
-// pub fn find_to_index(
-//     header: [u8; EMAIL_HEADER_LENGTH],
-//     padded_recipient_local: [u8; MAX_ADDRESS_LOCAL_LENGTH],
-//     recipient_local_length: u32
-// ) -> (bool, u32) {
-//     // init the search params
-//     let needle_text_init: [u8; 3] = "to:".as_bytes();
-//     let needle_start: SubString32 = SubString::new(needle_text_init, needle_text_init.len());
-//     let needle_end: SubString64 = SubString::new(padded_recipient_local, recipient_local_length);
-//     let needle = needle_start.concat_into(needle_end);
 
-//     // init the search domain
-//     let haystack: StringBody512 = StringBody::new(header, EMAIL_HEADER_LENGTH);
-
-//     // find the index of the position
-//     haystack.substring_match(needle)
-// }
 
 // /**
 //  * Extracts the recipient domain from the email header given index of to field + expected recipient local length
@@ -111,7 +90,7 @@ pub fn get_body_hash(header: [u8; MAX_EMAIL_HEADER_LENGTH], index: u32) -> [u8; 
 //  * @returns the supposed recipient domain
 //  */
 // pub fn extract_expected_recipient_domain(
-//     header: [u8; EMAIL_HEADER_LENGTH],
+//     header: [u8; MAX_EMAIL_HEADER_LENGTH],
 //     recipient_local_length: u32,
 //     index: u32
 // ) -> [u8; TO_DOMAIN_LENGTH] {
@@ -124,10 +103,54 @@ pub fn get_body_hash(header: [u8; MAX_EMAIL_HEADER_LENGTH], index: u32) -> [u8; 
 //     recipient_domain
 // }
 
-// pub fn assert_zero_padding(data: [u8; _], start: u32) -> bool {
-//     let mut sum = 0;
-//     for i in start..data.len() {
-//         sum += data[i];
-//     }
-//     sum == 0
-// }
+pub fn extract_from(
+    header: [u8; MAX_EMAIL_HEADER_LENGTH], 
+    index: u32
+) -> [u8; GITHUB_ADDRESS_LEN] {
+    let mut from = [0 as u8; GITHUB_ADDRESS_LEN];
+    for i in 0..GITHUB_ADDRESS_LEN {
+        from[i] = header[i + index];
+    }
+    from
+}
+
+pub fn extract_to(
+    header: [u8; MAX_EMAIL_HEADER_LENGTH],
+    to_length: u32,
+    index: u32
+) -> [Field; MAX_ADDRESS_LENGTH] {
+    let mut to = [0 as Field; MAX_ADDRESS_LENGTH];
+    for i in 0..MAX_ADDRESS_LENGTH {
+        if i < to_length {
+            to[i] = header[i + index] as Field;
+        }
+    }
+    to
+}
+
+pub fn extract_username(
+    body: [u8; MAX_EMAIL_BODY_LENGTH],
+    username_length: u32,
+    index: u32
+) -> [Field; MAX_USERNAME_LENGTH] {
+    let mut username = [0 as Field; MAX_USERNAME_LENGTH];
+    for i in 0..MAX_USERNAME_LENGTH {
+        if i < username_length {
+            username[i] = body[i + index] as Field;
+        }
+    }
+    username
+}
+
+pub fn is_password_reset_email(
+    body: [u8; MAX_EMAIL_BODY_LENGTH],
+    body_length: u32,
+) -> (bool, u32) {
+    let needle_text_init: [u8; 62] = "We wanted to let you know that your GitHub password was reset.".as_bytes();
+
+    let needle: SubString64 = SubString::new(needle_text_init, needle_text_init.len());
+    // init the search domain
+    let haystack: StringBody1024 = StringBody::new(body, body_length);
+    // // find the index of the position
+    haystack.substring_match(needle)    
+}
