@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { generateEmailVerifierInputs, CircuitBackend, toNoirInputs } from "../src/input-generators";
+import { generateEmailVerifierInputs, CircuitBackend, toNoirInputs, toProverToml } from "../src/input-generators";
 import { bytesToString } from "../src/binary-format";
 
 jest.setTimeout(10000);
@@ -26,7 +26,10 @@ describe("Input generators", () => {
     // expect(inputs.emailBodyLength).toBeDefined();
     // expect(inputs.bodyHashIndex).toBeDefined();
     const formattedInputs = toNoirInputs(inputs);
-    console.log("formattedInputs", formattedInputs.pubkey_modulus_limbs);
+    const tomlInputs = toProverToml(inputs);
+    console.log("Prover.toml");
+    console.log(tomlInputs);
+    // console.log("bh index", formattedInputs.body_hash_index);
     // console.log("formattedInputs", formattedInputs.header.length);
     // console.log("Body length: ", formattedInputs.body.length);
     // console.log(formattedInputs.body?.slice(0, Number(formattedInputs.body_length)));
