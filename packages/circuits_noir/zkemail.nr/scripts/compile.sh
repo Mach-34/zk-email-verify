@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd ..
 compile_example() {
     project=$1
     echo "Compiling $project"

@@ -2,7 +2,7 @@ use crate::BODY_HASH_BASE64_LENGTH;
 use crate::base64::bodyhash_base64_decode;
 use dep::std::hash::sha256_var;
 
-global BH_PREFIX: [u8; 3] = [98, 103, 61]; // "bh="
+global BH_PREFIX: [u8; 3] = [98, 104, 61]; // "bh="
 global BH_SUFFIX: u8 = 59; // ";"
 
 /**

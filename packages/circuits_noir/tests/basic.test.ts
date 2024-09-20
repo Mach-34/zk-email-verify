@@ -12,8 +12,8 @@ import {
   UltraHonkBackend,
 } from "@noir-lang/backend_barretenberg";
 import { Noir } from "@noir-lang/noir_js";
-import circuit1024 from "../email-verifier-1024/target/noir_zkemail_1024.json";
-import circuit2048 from "../email-verifier-2048/target/noir_zkemail_2048.json";
+import circuit1024 from "../zkemail.nr/examples/verify_email_1024_bit_dkim/target/verify_email_1024_bit_dkim.json";
+import circuit2048 from "../zkemail.nr/examples/verify_email_2048_bit_dkim/target/verify_email_2048_bit_dkim.json";
 
 const emails = {
   small: fs.readFileSync(
@@ -53,7 +53,7 @@ describe("Fixed Size Circuit Input", () => {
   });
 
   describe("UltraHonk", () => {
-    xit("UltraHonk::SmallEmail", async () => {
+    it("UltraHonk::SmallEmail", async () => {
       const inputs = await generateEmailVerifierInputs(emails.small, {
         backend: CircuitBackend.Noir,
       });
@@ -64,7 +64,7 @@ describe("Fixed Size Circuit Input", () => {
       expect(result).toBeTruthy();
     });
 
-    xit("UltraHonk::LargeEmail", async () => {
+    it("UltraHonk::LargeEmail", async () => {
       const inputs = await generateEmailVerifierInputs(emails.large, {
         backend: CircuitBackend.Noir,
       });
