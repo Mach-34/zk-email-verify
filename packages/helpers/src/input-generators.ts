@@ -170,8 +170,15 @@ export function generateEmailVerifierInputsFromDKIMResult(
   return circuitInputs;
 }
 
-export function toNoirInputs(inputs: CircuitInput, exactLength = true) {
-
+/**
+ * Rename inputs for Noir format
+ * @todo I wonder if I should just axe 99% of this repository and keep this little bit
+ * 
+ * @param inputs - the inputs to convert to Noir format
+ * @param exactLength - whether to have exact length for header or (default) keep 0-padding 
+ * @returns - the inputs as the NoirJS witness simulator expects them
+ */
+export function toNoirInputs(inputs: CircuitInput, exactLength = false) {
   return {
     body_hash_index: inputs.bodyHashIndex!,
     header: exactLength
@@ -182,8 +189,32 @@ export function toNoirInputs(inputs: CircuitInput, exactLength = true) {
     : inputs.emailBody!,
     body_length: inputs.emailBodyLength!,
     header_length: inputs.emailHeaderLength!,
-    pubkey_modulus_limbs: inputs.pubkey!,
-    redc_params_limbs: inputs.redc_params!,
-    signature: { limbs: inputs.signature! },
+    pubkey: inputs.pubkey!,
+    pubkey_redc: inputs.redc_params!,
+    signature: inputs.signature!,
   };
+}
+
+/**
+ * Format circuit inputs for a Prover.toml file
+ * 
+ * @param inputs - the inputs to convert to Prover.toml format
+ * @param exactLength - whether toNoirInputs should have exact length for header or keep 0-padding
+ * @returns - the inputs as bb cli expects them to appear in a Prover.toml file
+ */
+export function toProverToml(inputs: CircuitInput, exactLength = false): string {
+  let formatted = toNoirInputs(inputs, exactLength);
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(formatted)) {
+    let valueStr = "";
+    console.log("isArray", Array.isArray(value));
+    if (Array.isArray(value)) {
+      let valueStrArr = value.map(val => `"${val}"`);
+      valueStr = `[${valueStrArr.join(", ")}]`;
+    } else {
+      valueStr = `"${value}"`;
+    }
+    lines.push(`${key} = ${valueStr}`);
+  }
+  return lines.join("\n");
 }

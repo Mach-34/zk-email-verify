@@ -57,7 +57,7 @@ describe("Fixed Size Circuit Input", () => {
       const inputs = await generateEmailVerifierInputs(emails.small, {
         backend: CircuitBackend.Noir,
       });
-      const noirInputs = toNoirInputs(inputs, false);
+      const noirInputs = toNoirInputs(inputs);
       const { witness } = await prover2048.noir.execute(noirInputs);
       const proof = await prover2048.ultraHonk.generateProof(witness);
       const result = await prover2048.ultraHonk.verifyProof(proof);
@@ -68,7 +68,7 @@ describe("Fixed Size Circuit Input", () => {
       const inputs = await generateEmailVerifierInputs(emails.large, {
         backend: CircuitBackend.Noir,
       });
-      const noirInputs = toNoirInputs(inputs, false);
+      const noirInputs = toNoirInputs(inputs);
       const { witness } = await prover2048.noir.execute(noirInputs);
       const proof = await prover2048.ultraHonk.generateProof(witness);
       const result = await prover2048.ultraHonk.verifyProof(proof);
@@ -78,7 +78,7 @@ describe("Fixed Size Circuit Input", () => {
       const inputs = await generateEmailVerifierInputs(emails.ownership, {
         backend: CircuitBackend.Noir,
       });
-      const noirInputs = toNoirInputs(inputs, false);
+      const noirInputs = toNoirInputs(inputs);
       const { witness } = await prover1024.noir.execute(noirInputs);
       const proof = await prover1024.ultraHonk.generateProof(witness);
       const result = await prover1024.ultraHonk.verifyProof(proof);
@@ -91,7 +91,7 @@ describe("Fixed Size Circuit Input", () => {
       const inputs = await generateEmailVerifierInputs(emails.small, {
         backend: CircuitBackend.Noir,
       });
-      const noirInputs = toNoirInputs(inputs, false);
+      const noirInputs = toNoirInputs(inputs);
       const { witness } = await prover2048.noir.execute(noirInputs);
       const proof = await prover2048.barretenberg.generateProof(witness);
       const result = await prover2048.barretenberg.verifyProof(proof);
@@ -102,7 +102,7 @@ describe("Fixed Size Circuit Input", () => {
       const inputs = await generateEmailVerifierInputs(emails.large, {
         backend: CircuitBackend.Noir,
       });
-      const noirInputs = toNoirInputs(inputs, false);
+      const noirInputs = toNoirInputs(inputs);
       const { witness } = await prover2048.noir.execute(noirInputs);
       const proof = await prover2048.barretenberg.generateProof(witness);
       const result = await prover2048.barretenberg.verifyProof(proof);
