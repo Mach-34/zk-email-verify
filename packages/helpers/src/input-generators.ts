@@ -2,7 +2,7 @@ import { Uint8ArrayToCharArray, toCircomBigIntBytes } from "./binary-format";
 import { MAX_BODY_PADDED_BYTES, MAX_HEADER_PADDED_BYTES } from "./constants";
 import { DKIMVerificationResult, verifyDKIMSignature } from "./dkim";
 import { generatePartialSHA, sha256Pad } from "./sha-utils";
-import * as NoirBignum from "noir-bignum";
+import * as NoirBignum from "noir_bignum";
 
 export enum CircuitBackend {
   Circom = "circom",
@@ -194,6 +194,7 @@ export function toNoirInputs(inputs: CircuitInput, exactLength = false) {
     signature: inputs.signature!,
   };
 }
+
 
 /**
  * Format circuit inputs for a Prover.toml file

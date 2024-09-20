@@ -1,6 +1,3 @@
 #!/bin/bash
 
-wasm-pack build --target nodejs
-cd ../../../../
-npm i
-cd -
+wasm-pack build --target bundler
