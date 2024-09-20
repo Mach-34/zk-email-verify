@@ -25,6 +25,7 @@ describe("Input generators", () => {
     // expect(inputs.emailBody).toBeDefined();
     // expect(inputs.emailBodyLength).toBeDefined();
     // expect(inputs.bodyHashIndex).toBeDefined();
+    console.log("Inputs: ", inputs);
     const formattedInputs = toNoirInputs(inputs);
     const tomlInputs = toProverToml(inputs);
     console.log("Prover.toml");

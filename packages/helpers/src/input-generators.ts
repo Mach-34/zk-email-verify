@@ -208,7 +208,6 @@ export function toProverToml(inputs: CircuitInput, exactLength = false): string 
   const lines: string[] = [];
   for (const [key, value] of Object.entries(formatted)) {
     let valueStr = "";
-    console.log("isArray", Array.isArray(value));
     if (Array.isArray(value)) {
       let valueStrArr = value.map(val => `"${val}"`);
       valueStr = `[${valueStrArr.join(", ")}]`;
