@@ -39,11 +39,9 @@ fn main(
     org_len: u32,
     repo_index: u32,
     repo_len: u32,
-    // to_index: u32,
-    // to_len: u32,
-    // username_index: u32,
-    // username_len: u32,
-) -> pub [u8; MAX_GITHUB_REPO_LENGTH] {
+    to_index: u32,
+    to_len: u32,
+) -> pub [Field; 2] {
     // instantiate the BNInstance for the pubkey
     let pubkey: BigNumInstance<BN_LIMBS, Params1024> = BigNumInstance::new(pubkey_modulus_limbs, redc_params_limbs);
 
@@ -62,13 +60,15 @@ fn main(
     assert(found);
 
     // extract to and assert its hash is equal to provided hash
-    // let extracted_to = utils::extract_to(header, header_length);
+    let extracted_to = utils::extract_to(header, to_len, to_index);
 
     // extract org name
-    // let extracted_org = utils::extract_organization(header, org_len, org_index);
+    let extracted_org = utils::extract_organization(header, org_len, org_index);
+    let org_hash = std::hash::pedersen_hash(extracted_org);
 
     // extract repo name
     let extracted_repo = utils::extract_repository(header, repo_len, repo_index);
+    let repo_hash = std::hash::pedersen_hash(extracted_repo);
 
-    extracted_repo
+    [org_hash, repo_hash]
 }

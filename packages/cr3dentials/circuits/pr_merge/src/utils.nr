@@ -108,11 +108,11 @@ pub fn extract_organization(
     header: [u8; MAX_EMAIL_HEADER_LENGTH],
     org_length: u32,
     index: u32
-) -> [u8; MAX_GITHUB_ORG_LENGTH] {
-    let mut organization = [0 as u8; MAX_GITHUB_ORG_LENGTH];
+) -> [Field; MAX_GITHUB_ORG_LENGTH] {
+    let mut organization = [0 as Field; MAX_GITHUB_ORG_LENGTH];
     for i in 0..MAX_GITHUB_ORG_LENGTH {
         if i < org_length {
-            organization[i] = header[i + index];
+            organization[i] = header[i + index] as Field;
         }
     }
     organization
@@ -122,26 +122,26 @@ pub fn extract_repository(
     header: [u8; MAX_EMAIL_HEADER_LENGTH],
     repo_length: u32,
     index: u32
-) -> [u8; MAX_GITHUB_REPO_LENGTH] {
-    let mut repository = [0 as u8; MAX_GITHUB_REPO_LENGTH];
+) -> [Field; MAX_GITHUB_REPO_LENGTH] {
+    let mut repository = [0 as Field; MAX_GITHUB_REPO_LENGTH];
     for i in 0..MAX_GITHUB_REPO_LENGTH {
         if i < repo_length {
-            repository[i] = header[i + index];
+            repository[i] = header[i + index] as Field;
         }
     }
     repository
 }
 
-pub fn is_pr_merge(
-    header: [u8; MAX_EMAIL_HEADER_LENGTH],
-    header_length: u32,
-) -> (bool, u32) {
-    // init the search params
-    let needle_text_init: [u8; 19] = "[Mach-34/Grapevine]".as_bytes();
-    let needle_start: SubString32 = SubString::new(needle_text_init, needle_text_init.len());
+// pub fn is_pr_merge(
+//     header: [u8; MAX_EMAIL_HEADER_LENGTH],
+//     header_length: u32,
+// ) -> (bool, u32) {
+//     // init the search params
+//     let needle_text_init: [u8; 19] = "[Mach-34/Grapevine]".as_bytes();
+//     let needle_start: SubString32 = SubString::new(needle_text_init, needle_text_init.len());
 
-    // init the search domain
-    let haystack: StringBody2048 = StringBody::new(header, header_length);
-    // // find the index of the position
-    haystack.substring_match(needle_start)    
-}
+//     // init the search domain
+//     let haystack: StringBody2048 = StringBody::new(header, header_length);
+//     // // find the index of the position
+//     haystack.substring_match(needle_start)    
+// }

@@ -9,6 +9,7 @@ import {
   BarretenbergBackend,
   UltraHonkBackend,
 } from "@noir-lang/backend_barretenberg";
+import { pedersenHash } from '@aztec/foundation/crypto'
 import { Noir } from "@noir-lang/noir_js";
 import ownerCircuit from "../circuits/ownership/target/github_ownership.json";
 import prMergeCircuit from "../circuits/pr_merge/target/github_pr_merge.json";
@@ -81,9 +82,11 @@ describe("Fixed Size Circuit Input", () => {
       const from = "notifications@github.com";
       const organization = "Mach-34";
       const repo = "Grapevine";
+      const to = "ianbrighton1@gmail.com"
       const fromBuffer = Buffer.from(from);
       const orgBuffer = Buffer.from(organization);
       const repoBuffer = Buffer.from(repo);
+      const toBuffer = Buffer.from(to);
 
       const inputs = await generateEmailVerifierInputs(emails.pr_merge, {
         backend: CircuitBackend.Noir,
@@ -100,13 +103,20 @@ describe("Fixed Size Circuit Input", () => {
         org_index: emailHeaderBytes.indexOf(orgBuffer),
         org_len: orgBuffer.length,
         repo_index: emailHeaderBytes.indexOf(repoBuffer),
-        repo_len: repoBuffer.length
+        repo_len: repoBuffer.length,
+        to_index: emailHeaderBytes.indexOf(toBuffer),
+        to_len: toBuffer.length
       };
 
       const { witness } = await noir.execute(noirInputs);
       const proof = await ultraHonk.generateProof(witness);
       const result = await ultraHonk.verifyProof(proof);
       expect(result).toBeTruthy();
+
+      // console.log('Proof: ', proof);
+      const testHash = pedersenHash([1]);
+      console.log('Hash: ', testHash)
+
       // const orgBytes = proof.publicInputs.map(val => parseInt(val, 16));
       // const extractedOrg = Buffer.from(orgBytes).toString();
       // expect(extractedOrg).toEqual(organization);
